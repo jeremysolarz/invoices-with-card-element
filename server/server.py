@@ -70,9 +70,16 @@ def create_payment():
                 currency=currency,
             )
 
-        # Step 3: Create a customer
+        # Step 3: Create a customer with Swiss address
         customer = stripe.Customer.create(
+            name='Hans Müller',
             description='Card payment customer',
+            address={
+                'line1': 'Bahnhofstrasse 42',
+                'city': 'Zürich',
+                'postal_code': '8001',
+                'country': 'CH'
+            },
             metadata={'source': 'card_element_demo'}
         )
 
