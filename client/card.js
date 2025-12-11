@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Make a call to the server to create a new
     // payment intent and invoice
+    const nameInput = document.querySelector('#name');
     const response = await fetch(
       '/create-payment-intent',
       {
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         body: JSON.stringify({
           currency: 'eur',
           paymentMethodType: 'card',
+          name: nameInput.value,
         }),
       }
     ).then((r) => r.json());
@@ -59,8 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     addMessage(`Invoice created: ${invoiceNumber}`);
     addMessage(`Client secret returned.`);
-
-    const nameInput = document.querySelector('#name');
 
     // Confirm the card payment given the clientSecret
     // from the payment intent that was just created on

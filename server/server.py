@@ -33,6 +33,7 @@ def get_config():
 def create_payment():
     data = json.loads(request.data)
     currency = data.get('currency', 'usd')
+    customer_name = data.get('name', 'Hans Müller')  # Use provided name or default
     orderAmount = 5999  # Amount in cents ($59.99)
 
     try:
@@ -72,7 +73,7 @@ def create_payment():
 
         # Step 3: Create a customer with Swiss address
         customer = stripe.Customer.create(
-            name='Hans Müller',
+            name=customer_name,
             description='Card payment customer',
             address={
                 'line1': 'Bahnhofstrasse 42',
