@@ -169,6 +169,7 @@ def webhook_received():
                 # Attach the PaymentIntent to the invoice
                 # This creates an InvoicePayment and properly links the payment
                 invoice = invoice.attach_payment(
+                    invoice_id,
                     payment_intent=payment_intent_id
                 )
 
