@@ -163,10 +163,12 @@ def webhook_received():
 
         if invoice_id:
             try:
+                # Retrieve the invoice object first
+                invoice = stripe.Invoice.retrieve(invoice_id)
+
                 # Attach the PaymentIntent to the invoice
                 # This creates an InvoicePayment and properly links the payment
-                invoice = stripe.Invoice.attach_payment(
-                    invoice_id,
+                invoice = invoice.attach_payment(
                     payment_intent=payment_intent_id
                 )
 
