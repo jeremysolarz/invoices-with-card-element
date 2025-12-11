@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   const elements = stripe.elements();
-  const card = elements.create('card');
+  const card = elements.create('card', {
+    hidePostalCode: true  // Hide postal code field to avoid validation errors
+  });
   card.mount('#card-element');
 
   // When the form is submitted...

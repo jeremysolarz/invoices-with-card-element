@@ -151,14 +151,15 @@ Card payments are confirmed in card.js:63-76 using `stripe.confirmCardPayment()`
 - Returns payment status or error
 - Displays invoice number and customer ID on success
 
-### Webhook Handling - Marking Invoices as Paid
+### Webhook Handling - Attaching Payments to Invoices
 
-Webhooks are verified using `STRIPE_WEBHOOK_SECRET` and signature validation (server.py:109-162). The webhook handler:
+Webhooks are verified using `STRIPE_WEBHOOK_SECRET` and signature validation (server.py:109-178). The webhook handler:
 - Verifies webhook signatures if secret is configured
-- On `payment_intent.succeeded` (lines 132-156):
+- On `payment_intent.succeeded` (lines 149-171):
   - Retrieves invoice_id from payment intent metadata
-  - Marks invoice as paid using `stripe.Invoice.pay(invoice_id, paid_out_of_band=True)`
-  - Logs invoice number, payment intent ID, and amount
+  - Attaches the PaymentIntent to the invoice using `stripe.Invoice.attach_payment()`
+  - This creates an InvoicePayment record that properly links the payment to the invoice
+  - Logs invoice number, payment intent ID, invoice status, and amount paid
 - On `payment_intent.payment_failed`: Logs failure
 
 ## Stripe API Version
@@ -217,5 +218,8 @@ After a successful payment:
    - Note that invoice will be marked as paid via webhook
 5. Check server logs (or Stripe CLI webhook logs) for:
    - "💰 Payment received!"
-   - "✅ Invoice [NUMBER] marked as paid!"
-6. Verify in Stripe Dashboard that the invoice shows as Paid
+   - "✅ Invoice [NUMBER] payment attached!"
+   - Invoice status and amount paid
+6. Verify in Stripe Dashboard:
+   - Invoice shows as Paid
+   - Payment is properly linked to the invoice (expand the "payments" field)
