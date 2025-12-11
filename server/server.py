@@ -163,23 +163,20 @@ def webhook_received():
 
         if invoice_id:
             try:
-                # Retrieve the invoice object first
-                invoice = stripe.Invoice.retrieve(invoice_id)
-
-                # Attach the PaymentIntent to the invoice
-                # This creates an InvoicePayment and properly links the payment
-                invoice = invoice.attach_payment(
+                # Mark the invoice as paid out of band
+                # This records that the payment was collected outside Stripe's normal flow
+                invoice = stripe.Invoice.pay(
                     invoice_id,
-                    payment_intent=payment_intent_id
+                    paid_out_of_band=True
                 )
 
-                print(f'✅ Invoice {invoice.number} (ID: {invoice_id}) payment attached!')
+                print(f'✅ Invoice {invoice.number} (ID: {invoice_id}) marked as paid!')
                 print(f'   Payment Intent: {payment_intent_id}')
                 print(f'   Invoice Status: {invoice.status}')
                 print(f'   Amount Paid: €{invoice.amount_paid / 100:.2f}')
 
             except stripe.error.StripeError as e:
-                print(f'❌ Error attaching payment to invoice: {str(e)}')
+                print(f'❌ Error marking invoice as paid: {str(e)}')
 
         # Fulfill any orders, e-mail receipts, etc
         # To cancel the payment you will need to issue a Refund (https://stripe.com/docs/api/refunds)
