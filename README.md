@@ -121,59 +121,6 @@ For official Stripe support and documentation:
 
 See [TESTING.md](./TESTING.md).
 
-## Running samples with Dev Containers or Codespaces
+## License
 
-We provide [Dev Container](https://containers.dev/) configurations for most of the sample apps for web. For the Visual Studio Code example, by hitting `Reopen in Containers` in the Command Pallete and choosing a sample from the options prompted, dedicated Docker containers for the sample will be automatically created.
-
-You can also try these samples even without installing Docker on your machine by using [GitHub Codespaces](https://github.com/features/codespaces). A sample app codespace can be created by clicking "New with options..." below and choosing a sample app from the Dev container configuration select box. **Note that in this case, you would be charged for usage of GitHub Codespaces.**
-
-![](https://github.com/stripe-samples/accept-a-payment/assets/43346/9db4688c-a71d-4624-80f1-4b79c5cae44d)
-
-### Running server app samples
-
-After launching the environment, a couple of setup steps would be needed to launch the web app. For the NodeJS (`custom-payment-flow-server-node`) example:
-
-1. Export the required environment variables
-    1. `export STRIPE_PUBLISHABLE_KEY=XXXX`
-    2. `export STRIPE_SECRET_KEY=XXXX`
-    3. `export PRICE=XXXX`
-2. Install the dependencies and run the web server. For NodeJS example, `npm install && npm run start`
-
-You can also run some tests for the server app by the following steps. This example is a little hacky as we need to use SSH to run a test command in another container (`runner`).
-
-1. Run `ssh-keygen` and `chmod 600 ~/.ssh/*`
-2. Login to the test runner service with `ssh runner`
-3. Move to the working dir with `cd /work`
-4. Export the required environment variables
-    1. `export $(cat .devcontainer/.env | xargs)`
-    2. `export STRIPE_PUBLISHABLE_KEY=XXXX`
-    3. `export STRIPE_SECRET_KEY=XXXX`
-    4. `export PRICE=XXXX`
-5. Run tests like `bundle exec rspec spec/custom_payment_flow_server_spec.rb `
-
-### Running client app samples
-
-After launching the environment, a couple of setup steps would be needed to launch the app. For the Create React App (`custom-payment-flow-client-react-cra`) example:
-
-1. Export the required environment variables
-    1. `export STRIPE_PUBLISHABLE_KEY=XXXX`
-    2. `export STRIPE_SECRET_KEY=XXXX`
-    3. `export PRICE=XXXX`
-2. Install the dependencies and run the node web server by running `cd ../../server/node && npm install && npm run start`
-3. In another terminal, install the dependencies and run the client app by running `npm install && npm start`
-  * :memo: You might want to set `server.hmr.port` to `443` in `vite.config.js` ([related issue](https://github.com/vitejs/vite/issues/4259))
-
-## Authors
-
-- [@cjav_dev](https://twitter.com/cjav_dev)
-- [@thorwebdev](https://twitter.com/thorwebdev)
-- [@aliriaz](https://github.com/aliriaz-stripe)
-- [@charlesw](https://twitter.com/charlesw_dev)
-
-## Contributors
-
-<a href="https://github.com/stripe-samples/accept-a-payment/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=stripe-samples/accept-a-payment" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
+See [LICENSE](./LICENSE).
